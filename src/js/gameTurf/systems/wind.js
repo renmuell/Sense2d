@@ -11,7 +11,7 @@ define([
 , './../entityPlugins/lastPositions'
 , './../core/util'
 , './../core/sound'
-, './windParticleFactory'
+, './WindParticleFactory'
 
 ],function(
 
