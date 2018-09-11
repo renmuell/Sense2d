@@ -1,0 +1,17 @@
+{
+  "name": "sense2d",
+  "version": "0.0.1",
+  "description": "HTML5 Game",
+  "main": "docs/index.html",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Game"
+  ],
+  "author": "",
+  "license": "ISC"
+}

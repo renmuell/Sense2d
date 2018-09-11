@@ -1,0 +1,19 @@
+Changes on files:
+- cut length
+- ogg encoded
+- volume change
+
+hello  : http://www.freesound.org/people/Reitanna/sounds/215393/
+jump   : http://www.freesound.org/people/fins/sounds/146726/
+death  : http://www.freesound.org/people/GameAudio/sounds/220203/
+shoot  : http://www.freesound.org/people/fins/sounds/191594/
+colide : http://www.freesound.org/people/simon.rue/sounds/49966/
+reload : http://www.freesound.org/people/stintx/sounds/107622/
+hit		 : http://www.freesound.org/people/broumbroum/sounds/50553/
+open	 : https://www.freesound.org/people/SpeedY/sounds/8495/
+ouch	 : https://www.freesound.org/people/11linda/sounds/234039/
+zing	 : http://www.freesound.org/people/girlana/sounds/76384/
+ohyeah : http://www.freesound.org/people/Corsica_S/sounds/104709/
+oh2		 : http://www.freesound.org/people/esperar/sounds/170765/
+ah		 : http://www.freesound.org/people/Reitanna/sounds/242909/
+kiss	 : http://www.freesound.org/people/davidou/sounds/88450/

@@ -1,0 +1,222 @@
+* { 
+  margin:0; 
+  padding:0; 
+ -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari*/
+     -khtml-user-select: none; /* Konqueror */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+} /* to remove the top and left whitespace */
+
+html, 
+body { 
+  width:100%; 
+  height:100%; 
+  overflow: hidden; 
+  background-color: #80BDBF; 
+  perspective:600px; 
+} /* just to be sure these are full screen*/
+
+#bg {
+  width:400px; 
+  height:400px
+}
+
+#gameCanvasContainer{
+  width:400px; 
+  height:400px
+}
+
+#Water-Container{
+  overflow: hidden;
+}
+
+#output{
+  position:absolute; 
+  right:0; 
+  top:0;
+}
+
+#Menu:not(.hide) ~ #gameCanvasContainer,
+#Menu:not(.hide) ~ #bg {
+  transform: translate(-9%,-50%) rotateY(-50deg)
+}
+
+#gameCanvasContainer, 
+#bg {
+  transition: all .7s ease-in-out;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border: 1px solid rgba(255,255,255,.3);
+  transform: translate(-50%,-50%) rotateX(10deg) rotateY(0.0001deg);
+  /*
+  display:block; 
+  position: absolute; 
+  left:0; 
+  top: 0; 
+  scale(1.5)
+  */ 
+} /* To remove the scrollbars transform: translate(-50%,-50%) ; */
+
+canvas, 
+#Water-Container {
+  position: absolute;
+  left:0;
+  right: 0;
+}
+
+#bg header{
+  position: absolute;
+  color:white;
+  top:-50px;
+  font-size: 50px;
+  font-family:verdana;
+}
+
+#Menu {
+  z-index: 1000000;
+  position: absolute;
+  left:0;
+  bottom: 0;
+  top: 0;
+  transition: all 0.7s ease-out;
+  width: 30%;
+  padding-top:100px;
+  background-color: white;
+  border-width: 20px;
+  border-left: 0;
+  border-top: 0;
+  border-bottom: 0;
+  border-color: #80bdbf;
+  text-align: center;
+  font-family: Verdana;
+}
+
+#Menu button{
+
+  background: none;
+  border:1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px 30px;
+  font-size: 18px;
+  cursor: pointer;
+  margin-top:20px;
+}
+
+#Water {
+  opacity: 0.4;
+  position: absolute;
+  left:-10%;
+  top:-10%;
+  width: 120%;
+  height: 120%;
+  background-color:#80BDBF;
+  background-image:
+  radial-gradient(
+    circle at 100% 150%, 
+    #80BDBF 24%, 
+    rgb(177, 215, 215) 25%, 
+    rgb(177, 215, 215) 28%, 
+    #80BDBF 29%, 
+    #80BDBF 36%, 
+    rgb(177, 215, 215) 36%, 
+    rgb(177, 215, 215) 40%, 
+    transparent 40%, 
+    transparent),
+  radial-gradient(
+    circle at 0    150%, 
+    #80BDBF 24%, 
+    rgb(177, 215, 215) 25%, 
+    rgb(177, 215, 215) 28%, 
+    #80BDBF 29%, 
+    #80BDBF 36%, 
+    rgb(177, 215, 215) 36%, 
+    rgb(177, 215, 215) 40%, 
+    transparent 40%, 
+    transparent),
+  radial-gradient(
+    circle at 50%  100%, 
+    rgb(177, 215, 215) 10%, 
+    #80BDBF 11%, 
+    #80BDBF 23%, 
+    rgb(177, 215, 215) 24%, 
+    rgb(177, 215, 215) 30%, 
+    #80BDBF 31%, 
+    #80BDBF 43%, 
+    rgb(177, 215, 215) 44%, 
+    rgb(177, 215, 215) 50%, 
+    #80BDBF 51%, 
+    #80BDBF 63%, 
+    rgb(177, 215, 215) 64%, 
+    rgb(177, 215, 215) 71%, 
+    transparent 71%, 
+    transparent),
+  radial-gradient(
+    circle at 100% 50%, 
+    rgb(177, 215, 215) 5%, 
+    #80BDBF 6%, 
+    #80BDBF 15%, 
+    rgb(177, 215, 215) 16%, 
+    rgb(177, 215, 215) 20%, 
+    #80BDBF 21%, 
+    #80BDBF 30%, 
+    rgb(177, 215, 215) 31%, 
+    rgb(177, 215, 215) 35%, 
+    #80BDBF 36%, 
+    #80BDBF 45%, 
+    rgb(177, 215, 215) 46%, 
+    rgb(177, 215, 215) 49%, 
+    transparent 50%, 
+    transparent),
+  radial-gradient(
+    circle at 0    50%, 
+    rgb(177, 215, 215) 5%, 
+    #80BDBF 6%, 
+    #80BDBF 15%, 
+    rgb(177, 215, 215) 16%, 
+    rgb(177, 215, 215) 20%, 
+    #80BDBF 21%, 
+    #80BDBF 30%, 
+    rgb(177, 215, 215) 31%, 
+    rgb(177, 215, 215) 35%, 
+    #80BDBF 36%, 
+    #80BDBF 45%, 
+    rgb(177, 215, 215) 46%, 
+    rgb(177, 215, 215) 49%, 
+    transparent 50%, 
+    transparent);
+  background-size:100px 50px;
+}
+
+#Menu.hide {
+  width: 0%;
+  opacity: 0;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  image-rendering:optimizeSpeed;              /* Legal fallback                 */
+  image-rendering:-moz-crisp-edges;           /* Firefox                        */
+  image-rendering:-o-crisp-edges;             /* Opera                          */
+  image-rendering:-webkit-optimize-contrast;  /* Chrome (and eventually Safari) */
+  image-rendering:crisp-edges;                /* CSS3 Proposed                  */
+  image-rendering: optimize-contrast;         /* Possible future browsers.      */
+  -ms-interpolation-mode:bicubic;             /* IE8+                           */
+}
+
+@keyframes rotating {
+  from {
+    transform: translate(0, -5%);
+  }
+  to {
+    transform: translate(0, 5%);
+  }
+}
+
+.rotating {
+  animation: rotating 2s ease-in-out infinite alternate;
+}
