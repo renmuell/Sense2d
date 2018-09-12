@@ -6,7 +6,7 @@
 
 define([
 
-  'gameTurf/gameTurf'
+  'gameTurf'
 , './player'
 
 ],function(

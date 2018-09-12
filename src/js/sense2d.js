@@ -6,34 +6,18 @@
 
 require.config({
     paths: {
-        howler   : '../vendors/howler.min'
-      , datGui   : '../vendors/dat.gui.min'
-      , stats    : '../vendors/stats.min'
-      , QuadTree :'../vendors/QuadTree'
-      , SpatialHash :'../vendors/spatialhash'
+      gameTurf    : '../vendors/gameTurf-min'
     }
   , shim: {
-      howler: {
-        exports: 'Howler'
+      gameTurf: {
+        exports: 'gameTurf'
       }
-    , datGui: {
-        exports: 'dat'
-      }
-    , stats: {
-        exports: 'Stats'
-      }
-    , SpatialHash :{
-       exports: 'SpatialHash'
-    }
-    , QuadTree :{
-       exports: 'QuadTree'
-    }
   }
 })
 
 require([
 
-  'gameTurf/gameTurf'
+  'gameTurf'
 , 'entities/player'
 , 'worlds/world3'
 , 'levels/level3'
