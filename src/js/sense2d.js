@@ -35,6 +35,18 @@ require([
   level.create()
   world.init()
 
-  GameTurf.game.init()
+  GameTurf.game.init({
+      effects: [
+          { id: 'colide' , src: "sounds/jump.ogg"  , volume: .03}
+        , { id: 'hello'  , src: "sounds/hello.ogg" , volume: .03}
+        , { id: 'walk'   , src: "sounds/walk.ogg"  , volume:  .7}
+        , { id: 'running', src: "sounds/walk.ogg"  , volume:   1}
+        , { id: 'wind'   , src: "sounds/breath.ogg", volume:  .4}
+      ]
+    , backgroundSong: {
+      src: 'sounds/inside.mp3',
+      volume: 0.1
+    }
+  })
 
 })
