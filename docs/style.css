@@ -19,6 +19,7 @@ body {
   perspective:600px; 
 } /* just to be sure these are full screen*/
 
+/*
 #bg {
   width:400px; 
   height:400px
@@ -28,7 +29,7 @@ body {
   width:400px; 
   height:400px
 }
-
+*/
 #Water-Container{
   overflow: hidden;
 }
@@ -38,11 +39,12 @@ body {
   right:0; 
   top:0;
 }
-
+/*
 #Menu:not(.hide) ~ #gameCanvasContainer,
 #Menu:not(.hide) ~ #bg {
   transform: translate(-9%,-50%) rotateY(-50deg)
 }
+*//
 
 #gameCanvasContainer, 
 #bg {
@@ -105,7 +107,7 @@ canvas,
   cursor: pointer;
   margin-top:20px;
 }
-
+/*
 #Water {
   opacity: 0.4;
   position: absolute;
@@ -188,8 +190,9 @@ canvas,
     rgb(177, 215, 215) 49%, 
     transparent 50%, 
     transparent);
-  background-size:100px 50px;
+  background-size:150px 75px;
 }
+*/
 
 #Menu.hide {
   width: 0%;

@@ -46,13 +46,41 @@ define([
       , update: function(){
           player.lastPositions.update(player.physics)
 
-          if (GameTurf.input.lastClickPosition.new){
+          var clicked = false;
+          if (GameTurf.input.lastClickPosition.new){ // get click position, false if frame is differnet 
             GameTurf.input.lastClickPosition.new = false
+            clicked = true;
+          }
+
+          var entity = GameTurf.entityManager.getNeahrestEntity(player, 50)
+
+          var interacted = false;
+          if (entity && entity.type === "chest") {
+
+            var wantsToOpen = false;
+            if (clicked && (
+              ((entity.physics.x - (entity.physics.width/2)) < GameTurf.input.lastClickPosition.x) &&
+              ((entity.physics.x + (entity.physics.width/2)) > GameTurf.input.lastClickPosition.x) &&
+              ((entity.physics.y - (entity.physics.height/2)) < GameTurf.input.lastClickPosition.y) &&
+              ((entity.physics.y + (entity.physics.height/2)) > GameTurf.input.lastClickPosition.y)  
+            )) {
+              wantsToOpen = true;
+            } else if (GameTurf.input.keyPressed[69]) {
+              wantsToOpen = true;
+            }
+
+            if (wantsToOpen) {
+              entity.tryOpenChest();
+              interacted = true;
+            }
+          } 
+          
+          if (clicked && interacted == false ) {
             player.goToPlace.x = GameTurf.input.lastClickPosition.x
             player.goToPlace.y = GameTurf.input.lastClickPosition.y
             player.goToPlace.done = false
           }
-
+        
           playerInput = GameTurf.input.getPlayerMovementDirection()
 
           GameTurf.wind.incluenceEntityPhysic(player.physics, playerInput.vector)

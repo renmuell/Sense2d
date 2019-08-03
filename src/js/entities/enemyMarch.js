@@ -83,6 +83,9 @@ define([
 
           if(enemy.hasKi) {
 
+            if (enemy.physics.objectCollision) 
+              enemy.currentPathTarget = (enemy.currentPathTarget + 1) % enemy.path.length
+
             enemy.movementDirectionData.vector.x 
               = enemy.path[enemy.currentPathTarget].x - enemy.physics.x
             enemy.movementDirectionData.vector.y 

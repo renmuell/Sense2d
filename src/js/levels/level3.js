@@ -7,11 +7,13 @@
 define([
 
   'entities/ball'
+, 'entities/chest'
 , 'entities/enemyMarch'
 
 ],function(
 
   Ball
+, Chest
 , Enemy
 
 ){
@@ -25,6 +27,8 @@ define([
         , hasKi: false
         })
 
+        Chest()
+     
         for (var i = 10; i >= 0; i--) {
           Enemy({
             hasKi: true
@@ -34,6 +38,7 @@ define([
             }
           })
         }
+   
       }
   }
 
