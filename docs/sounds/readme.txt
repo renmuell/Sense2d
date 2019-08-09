@@ -17,3 +17,6 @@ ohyeah : http://www.freesound.org/people/Corsica_S/sounds/104709/
 oh2		 : http://www.freesound.org/people/esperar/sounds/170765/
 ah		 : http://www.freesound.org/people/Reitanna/sounds/242909/
 kiss	 : http://www.freesound.org/people/davidou/sounds/88450/
+cat      : https://freesound.org/people/theshaggyfreak/sounds/274989/
+catpourr  : https://freesound.org/people/+katzen+/sounds/444559/
+opening  : https://freesound.org/people/pagancow/sounds/15419/

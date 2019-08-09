@@ -17,9 +17,12 @@ define([
   var playerInput
     , player = {
         name      : "???"
+      , type    : 'player'
       , physics   : GameTurf.physics({
-          x                 : 75
-        , y                 : 75
+          position: {
+            x: 75
+          , y: 75
+          }
         , mass              : 10
         , width             : 20
         , height            : 20
@@ -43,7 +46,7 @@ define([
           GameTurf.entityCollisionDetection.add(player)
         }
 
-      , update: function(){
+      , update: function(timeElapsed){
           player.lastPositions.update(player.physics)
 
           var clicked = false;
@@ -55,24 +58,42 @@ define([
           var entity = GameTurf.entityManager.getNeahrestEntity(player, 50)
 
           var interacted = false;
-          if (entity && entity.type === "chest") {
 
-            var wantsToOpen = false;
+          if (entity)  {
+
+            var wantsToInteract = false;
             if (clicked && (
-              ((entity.physics.x - (entity.physics.width/2)) < GameTurf.input.lastClickPosition.x) &&
-              ((entity.physics.x + (entity.physics.width/2)) > GameTurf.input.lastClickPosition.x) &&
-              ((entity.physics.y - (entity.physics.height/2)) < GameTurf.input.lastClickPosition.y) &&
-              ((entity.physics.y + (entity.physics.height/2)) > GameTurf.input.lastClickPosition.y)  
+              ((entity.physics.position.x - (entity.physics.width/2)) < GameTurf.input.lastClickPosition.x) &&
+              ((entity.physics.position.x + (entity.physics.width/2)) > GameTurf.input.lastClickPosition.x) &&
+              ((entity.physics.position.y - (entity.physics.height/2)) < GameTurf.input.lastClickPosition.y) &&
+              ((entity.physics.position.y + (entity.physics.height/2)) > GameTurf.input.lastClickPosition.y)  
             )) {
-              wantsToOpen = true;
+              wantsToInteract = true;
             } else if (GameTurf.input.keyPressed[69]) {
-              wantsToOpen = true;
+              wantsToInteract = true;
             }
 
-            if (wantsToOpen) {
+            if (wantsToInteract && entity.type === "chest") {
               entity.tryOpenChest();
+              GameTurf.ui.showBubble(player.physics, "Juhu!", 1000)
               interacted = true;
-            }
+            } 
+
+            if (wantsToInteract && entity.type === "cat") {
+              entity.purr();
+              GameTurf.ui.showBubble(player.physics, "Hi! Kitty :)", 1000)
+              interacted = true;
+            } 
+
+            if (wantsToInteract && entity.type === "npc") {
+              entity.talk();
+              interacted = true;
+            } 
+
+            if (wantsToInteract && entity.type === "kangaroo") {
+              entity.talk();
+              interacted = true;
+            } 
           } 
           
           if (clicked && interacted == false ) {
@@ -90,7 +111,7 @@ define([
 
             var goToPlaceVectorFromPlayer = GameTurf.math.vectorSubstract(
                 player.goToPlace
-                , player.physics)
+                , player.physics.position)
 
             if(GameTurf.util.vectorLength(goToPlaceVectorFromPlayer) > 0.5) {
               var goToPlaceDirection = GameTurf.util.setVectorToLengthOne(
@@ -106,7 +127,7 @@ define([
             }
           }
 
-          player.physics.update(playerInput)
+          player.physics.update(timeElapsed, playerInput)
 
           if (playerInput.playerInteraction && player.physics.isMoving) {
             if (player.physics.isRunning) {
@@ -120,14 +141,24 @@ define([
         }
 
       , showNeahrestEntity: function(){
+   
           var entity = GameTurf.entityManager.getNeahrestEntity(player, 50)
           
           if (entity) {
-            GameTurf.theatre.drawSquareFromCenter(
-              'stage'
-            , entity.physics
-            , 'blue')
+            if (entity.type == "chest" || entity.type == "npc"||entity.type == "cat") {
+             /* GameTurf.theatre.drawSquareFromCenter(
+                'stage'
+              , {
+                position: entity.physics.position
+              , halfHeight: entity.physics.halfHeight + 2
+              , halfWidth: entity.physics.halfWidth + 2
+              , width: entity.physics.width + 4
+              , height:entity.physics.height + 4
+              }
+              , 'rgba(0,0,255,.3)')*/
+            }
           }
+      
         }
 
       , postUpdate: function(){
@@ -141,7 +172,7 @@ define([
           GameTurf.theatre.playerUpdate(player.physics)
         }
 
-      , draw: function (){
+      , draw: function (timeElapsed){
 
           if(player.physics.isRunning) {
             player.lastPositions.draw(player.physics)
@@ -163,8 +194,7 @@ define([
             GameTurf.theatre.drawCircle(
               'stage'
             , {
-                x: player.goToPlace.x
-              , y: player.goToPlace.y
+                position: player.goToPlace
               , halfWidth : 10 
               , halfHeight: 10
               }

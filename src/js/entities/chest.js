@@ -1,8 +1,8 @@
-/******************************************************************************
+/**
  * chest.js
  *
  * 
- *****************************************************************************/
+ */
 
 define([
 
@@ -21,20 +21,32 @@ define([
     return function(config) {
   
       config         = config         || {}
-      config.physics = config.physics || {}
+      config.physics = config.physics || {
+        position: config.position || { x:0, y:0 }
+      }
   
       var chest = {
           type: "chest"
         , isOpen: false
         , physics : GameTurf.physics({
-            x                 : config.physics.x || 30
-          , y                 : config.physics.y || 10
+            position: {
+                x : config.physics.position.x || 80
+              , y : config.physics.position.y || 10
+            }
           , mass              : 10
           , width             : 30
           , height            : 15
           , frictionMagnitude : 1
           , speed             : 1
           , isBounce          : false
+          })
+        , interaction: GameTurf.interaction({
+            onInteraction: function (entity) {
+              chest.isOpen = true;
+            },
+            drawHighlightBox: function() {
+
+            }
           })
         , colorOpen: "#ee00ee"
         , colorClose: "#cccccc"
@@ -44,14 +56,14 @@ define([
             GameTurf.entityCollisionDetection.add(chest)
           }
   
-        , update: function(){
+        , update: function(timeElapsed){
             if (chest.physics.velocity)
-              chest.physics.update({
+              chest.physics.update(timeElapsed, {
                 vector: chest.physics.velocity
               })
           }
   
-        , draw: function(){
+        , draw: function(timeElapsed){
   
             chest.physics.draw()
   
@@ -63,7 +75,7 @@ define([
         , tryOpenChest: function() {
             if (!chest.isOpen) {
                 chest.isOpen = true;
-                GameTurf.sound.playEffect('openChest', true)
+                GameTurf.sound.playEffect('opening', true)
             }
         }
       }

@@ -7,26 +7,29 @@
 define([
 
   'gameTurf'
-, './player'
 
 ],function(
 
   GameTurf
-, player
 
 ){
 
   return function(config) {
 
     config         = config         || {}
-    config.physics = config.physics || {}
+    config.physics = config.physics || {
+      position: config.position || { x:0, y:0 }
+    }
 
     var enemy = {
         name    : undefined
+      , type    : 'enemy'
       , hasKi   : true
       , physics : GameTurf.physics({
-          x : config.physics.x || 230
-        , y : config.physics.y || 180
+          position: {
+            x : config.physics.position.x || 230
+          , y : config.physics.position.y || 180
+          }
         , mass              : 0.01
         , width             : 20
         , height            : 20
@@ -49,7 +52,7 @@ define([
           , y: 0
           }
         }
-      , color: "red"
+      , color: "#FF5800"
       , currentPathTarget: 0
       , path: config.path || [
           { x: 0   , y: 100  }
@@ -74,7 +77,7 @@ define([
           GameTurf.entityCollisionDetection.add(enemy)
         }
 
-      , update: function(){
+      , update: function(timeElapsed){
 
           enemy.movementDirectionData.vector.x    = 0
           enemy.movementDirectionData.vector.y    = 0
@@ -87,9 +90,9 @@ define([
               enemy.currentPathTarget = (enemy.currentPathTarget + 1) % enemy.path.length
 
             enemy.movementDirectionData.vector.x 
-              = enemy.path[enemy.currentPathTarget].x - enemy.physics.x
+              = enemy.path[enemy.currentPathTarget].x - enemy.physics.position.x
             enemy.movementDirectionData.vector.y 
-              = enemy.path[enemy.currentPathTarget].y -  enemy.physics.y
+              = enemy.path[enemy.currentPathTarget].y -  enemy.physics.position.y
 
             if (GameTurf.util.vectorLength(enemy.movementDirectionData.vector) < 2) {
               enemy.currentPathTarget = (enemy.currentPathTarget + 1) % enemy.path.length
@@ -108,7 +111,7 @@ define([
               enemy.movementDirectionData.vector)
 
           enemy.lastPositions.update(enemy.physics)
-          enemy.physics.update(enemy.movementDirectionData)
+          enemy.physics.update(timeElapsed, enemy.movementDirectionData)
 
           if (enemy.face) {
             enemy.face.update(
@@ -117,7 +120,7 @@ define([
           }
         }
 
-      , draw: function(){
+      , draw: function(timeElapsed){
           //GameTurf.theatre.drawPath('stage', enemy.path, 0, 'red', 1, enemy.path.length)
 
           enemy.lastPositions.draw(enemy.physics)

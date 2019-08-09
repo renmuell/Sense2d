@@ -7,6 +7,7 @@
 require.config({
     paths: {
       gameTurf    : '../vendors/gameTurf-min'
+      //gameTurf    : '../../../gameTurf.js/build/gameTurf'
     }
   , shim: {
       gameTurf: {
@@ -49,6 +50,9 @@ require([
         , { id: 'running', src: "sounds/walk.ogg"  , volume:   1}
         , { id: 'wind'   , src: "sounds/breath.ogg", volume:  .4}
         , { id: 'openChest', src: "sounds/SFXWoodenObjectOpen.ogg", volume: .7} 
+        , { id: 'catMeowing', src: "sounds/cat_meowing.ogg", volume: .7} 
+        , { id: 'catPurrs', src: "sounds/cat_purrs.ogg", volume: 5} 
+        , { id: 'opening', src: "sounds/opening.ogg", volume: .7} 
       ]
     , backgroundSong: {
       src: 'sounds/inside.mp3',

@@ -21,18 +21,23 @@ define([
   return function(config) {
 
     config         = config         || {}
-    config.physics = config.physics || {}
+    config.physics = config.physics || {
+      position: config.position || { x:0, y:0 }
+    }
 
     var ball = {
         name    : config.name   || undefined
+      , type    : 'ball'
       , hasKi   : config.hasKi !== undefined ? config.hasKi : true
       , physics : GameTurf.physics({
-          x                 : config.physics.x || 230
-        , y                 : config.physics.y || 100
+          position: {
+            x : config.physics.position.x || 230
+          , y : config.physics.position.y || 100
+          }
         , mass              : 0.01
-        , width             : 30
-        , height            : 30
-        , frictionMagnitude : 0.01
+        , width             : 15
+        , height            : 15
+        , frictionMagnitude : 0.1
         , speed             : 6
         , isBounce          : true
         })
@@ -63,7 +68,7 @@ define([
           GameTurf.entityCollisionDetection.add(ball)
         }
 
-      , update: function(){
+      , update: function(timeElapsed){
 
           ball.movementDirectionData.vector.x    = 0
           ball.movementDirectionData.vector.y    = 0
@@ -72,7 +77,9 @@ define([
 
           GameTurf.wind.incluenceEntityPhysic(
             ball.physics
-          , ball.movementDirectionData)
+          , ball.movementDirectionData.vector)
+
+          console.log(ball.movementDirectionData)
 
           if(ball.hasKi) {
             if (Math.random() > 0.995) {
@@ -83,7 +90,7 @@ define([
           }
 
           ball.lastPositions.update(ball.physics)
-          ball.physics.update(ball.movementDirectionData)
+          ball.physics.update(timeElapsed, ball.movementDirectionData)
 
           if (ball.face) {
             ball.face.update(
@@ -92,7 +99,7 @@ define([
           }
         }
 
-      , draw: function(){
+      , draw: function(timeElapsed){
 
           if(ball.physics.currentSpeed > 1) {
             ball.lastPositions.draw(ball.physics)

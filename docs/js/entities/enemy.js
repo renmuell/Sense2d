@@ -19,14 +19,19 @@
   return function(config) {
 
     config         = config         || {}
-    config.physics = config.physics || {}
+    config.physics = config.physics || {
+      position: config.position || { x:0, y:0 }
+    }
 
     var enemy = {
         name    : undefined
       , hasKi   : true
+      , type    : 'enemy'
       , physics : GameTurf.physics({
-          x                 : config.physics.x || 230
-        , y                 : config.physics.y || 180
+          position: {
+            x : config.physics.position.x || 230
+          , y : config.physics.position.y || 180
+          }
         , mass              : 1
         , width             : 20
         , height            : 20
@@ -34,7 +39,7 @@
         , speed             : 1
         , isBounce          : false
         })
-      , face: GameTurf.face({ color: "white" })
+      , face: GameTurf.face({ color: "black" })
       , lastPositions: GameTurf.lastPositions({
           color: {
             r: 255
@@ -49,7 +54,7 @@
           , y: 0
           }
         }
-      , color: "red"
+      , color: "white"
 
       , init: function(){
           
@@ -61,7 +66,7 @@
           GameTurf.entityCollisionDetection.add(enemy)
         }
 
-      , update: function(){
+      , update: function(timeElapsed){
 
           enemy.movementDirectionData.vector.x    = 0
           enemy.movementDirectionData.vector.y    = 0
@@ -80,8 +85,8 @@
             enemy.movementDirectionData.interaction = true
             
             if (Math.random() > 0.09) {
-              enemy.movementDirectionData.vector.x = player.physics.x - enemy.physics.x
-              enemy.movementDirectionData.vector.y = player.physics.y - enemy.physics.y
+              enemy.movementDirectionData.vector.x = player.physics.position.x - enemy.physics.position.x
+              enemy.movementDirectionData.vector.y = player.physics.position.y - enemy.physics.position.y
             }
 
             if (GameTurf.util.vectorLength(enemy.movementDirectionData.vector) > 100) {
@@ -97,7 +102,7 @@
           }
 
           enemy.lastPositions.update(enemy.physics)
-          enemy.physics.update(enemy.movementDirectionData)
+          enemy.physics.update(timeElapsed, enemy.movementDirectionData)
 
           if (enemy.face) {
             enemy.face.update(
@@ -106,7 +111,7 @@
           }
         }
 
-      , draw: function(){
+      , draw: function(timeElapsed){
 
           if(enemy.physics.currentSpeed > 1) {
             //enemy.lastPositions.draw(enemy.physics)

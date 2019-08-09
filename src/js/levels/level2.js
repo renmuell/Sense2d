@@ -29,8 +29,10 @@ define([
           Enemy({
             hasKi   : true
           , physics : {
-              x: Math.random() * (50 * 40)
-            , y: Math.random() * (50 * 52)
+              position: {
+                x: Math.random() * (50 * 40)
+              , y: Math.random() * (50 * 52)
+              }
             }
           })
         }
@@ -39,8 +41,10 @@ define([
           Ball({
             hasKi   : false
           , physics : {
-              x: 30 * (i % 10) + 60
-            , y: 30 * (i % 10) + 60
+              position: {
+                x: 30 * (i % 10) + 60
+              , y: 30 * (i % 10) + 60
+              }
             }
           })
         }
