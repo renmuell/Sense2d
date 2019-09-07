@@ -16,6 +16,10 @@ define([
   
   ){
   
+    if (GameTurf.ui.datGui) {
+      var cats = GameTurf.ui.datGui.addFolder("Cats")
+    }  
+
     return function(config) {
   
       config         = config         || {}
@@ -41,13 +45,15 @@ define([
           })
         , face: GameTurf.face({ color: "white" })
         , lastPositions: GameTurf.lastPositions({
-            shouldDrawBodies: false,
-            color: {
+            lineWidth: 2
+          , shouldDrawBodies: false
+          , color: {
               r: 165
             , g: 42
             , b: 42
             }
           })
+        , degreeToPlayer: 0
         , movementDirectionData: {
             interaction: false
           , vector: {
@@ -56,7 +62,10 @@ define([
             }
           }
         , color: "brown"
-  
+        , playerWalkRadius: 30
+        , playerRotationDirection: 1
+        , playerCurrentWalkRadius: 50
+
         , init: function(){
             
             if (cat.face){
@@ -82,7 +91,7 @@ define([
             cat.movementDirectionData.interaction = false
             cat.movementDirectionData.isRunning   = false
   
-            GameTurf.wind.incluenceEntityPhysic(
+            GameTurf.wind.influenceEntityPhysic(
               cat.physics
             , cat.movementDirectionData)
   
@@ -92,13 +101,39 @@ define([
             if(cat.hasKi) {
   
               cat.movementDirectionData.interaction = true
-              
-              if (Math.random() > 0.09 && !cat.physics.objectCollision) {
-                cat.movementDirectionData.vector.x = player.physics.position.x - cat.physics.position.x
-                cat.movementDirectionData.vector.y = player.physics.position.y - cat.physics.position.y
-              }
+
+              var distanz = GameTurf.util.vectorDistanz(
+                player.physics.position
+              , cat.physics.position)
+
+              if (distanz < 200) {
+
+                cat.degreeToPlayer = GameTurf.util.getVectorAngleDegree(
+                  player.physics.position
+                , cat.physics.position
+                )
+
+                if (Math.random() > 0.997) {
+                  cat.playerRotationDirection *= -1
+                }
+
+                if (Math.random() > 0.97) {
+                  cat.playerCurrentWalkRadius = cat.playerWalkRadius - ((Math.random()*20)-10)
+                }
+
+                var goToDegree = (((cat.degreeToPlayer + 180) + (cat.playerRotationDirection * 10) ) % 360) - 180;
+
+                var goToPosition = GameTurf.util.getPositionByDegree(
+                  player.physics.position
+                , goToDegree
+                , cat.playerCurrentWalkRadius
+                );
+                
+                cat.movementDirectionData.vector.x = goToPosition.x - cat.physics.position.x
+                cat.movementDirectionData.vector.y = goToPosition.y - cat.physics.position.y
+              } 
   
-              if (GameTurf.util.vectorLength(cat.movementDirectionData.vector) > 100) {
+              if (GameTurf.util.vectorLength(cat.movementDirectionData.vector) == 0) {
   
                 if (Math.random() > 0.55) {
                   cat.movementDirectionData.vector.x = Math.random() - 0.5
@@ -126,12 +161,12 @@ define([
   
             cat.physics.draw()
             
-            GameTurf.theatre.drawTrianlgeFromCenterUpsideDown(
+            GameTurf.theatre.drawTriangleFromCenterUpsideDown(
               'stage'
             , cat.physics
             , cat.color)
   
-            GameTurf.theatre.drawTrianlgeFromCenter(
+            GameTurf.theatre.drawTriangleFromCenter(
                 'stage'
               , {
                   position: {
@@ -143,7 +178,7 @@ define([
               }
               , cat.color)
 
-            GameTurf.theatre.drawTrianlgeFromCenter(
+            GameTurf.theatre.drawTriangleFromCenter(
                 'stage'
                 , {
                     position: {
@@ -163,6 +198,26 @@ define([
   
       cat.init()
   
+      if (GameTurf.ui.datGui) {
+        var datGuiFolder = cats.addFolder("Cat - " + cat.Id)
+        GameTurf.ui.datGui.remember(cat)
+        datGuiFolder.add(cat, "color")
+        datGuiFolder.add(cat, "hasKi")
+        if (cat.name)
+          datGuiFolder.add(cat, "name")
+        datGuiFolder.add(cat, "type")
+        datGuiFolder.add(cat, "playerWalkRadius")
+        datGuiFolder.add(cat, "degreeToPlayer").listen()
+  
+        datGuiFolder.add(cat.movementDirectionData.vector, "x").listen()
+        datGuiFolder.add(cat.movementDirectionData.vector, "y").listen()
+        datGuiFolder.add(cat.movementDirectionData, "interaction").listen()
+  
+        cat.lastPositions.addToDatGuiFolder(datGuiFolder)
+        cat.physics.addToDatGuiFolder(datGuiFolder)
+        cat.face.addToDatGuiFolder(datGuiFolder)
+      }
+
       return cat
     }
   })

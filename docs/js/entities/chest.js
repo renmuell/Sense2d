@@ -15,7 +15,7 @@ define([
   ){
   
     if (GameTurf.ui.datGui) {
-      var chests = GameTurf.ui.datGui.addFolder("Chest")
+      var chests = GameTurf.ui.datGui.addFolder("Chests")
     }
   
     return function(config) {
@@ -83,10 +83,13 @@ define([
       chest.init()
   
       if (GameTurf.ui.datGui) {
-        var datGuiFolder = chests.addFolder("Ball - " + chest.Id)
+        var datGuiFolder = chests.addFolder("Chest - " + chest.Id)
         GameTurf.ui.datGui.remember(chest)
-        datGuiFolder.addColor(chest, "color")
-  
+        datGuiFolder.add(chest, "isOpen").listen()
+        datGuiFolder.add(chest, "colorOpen")
+        datGuiFolder.add(chest, "colorClose")
+        datGuiFolder.add(chest, "type")
+
         chest.physics.addToDatGuiFolder(datGuiFolder)
       }
   

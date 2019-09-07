@@ -34,7 +34,7 @@ define([
             x : config.physics.position.x || 230
           , y : config.physics.position.y || 100
           }
-        , mass              : 0.01
+        , mass              : 0.1
         , width             : 15
         , height            : 15
         , frictionMagnitude : 0.1
@@ -75,11 +75,9 @@ define([
           ball.movementDirectionData.interaction = false
           ball.movementDirectionData.isRunning   = false
 
-          GameTurf.wind.incluenceEntityPhysic(
+          GameTurf.wind.influenceEntityPhysic(
             ball.physics
           , ball.movementDirectionData.vector)
-
-          console.log(ball.movementDirectionData)
 
           if(ball.hasKi) {
             if (Math.random() > 0.995) {
@@ -124,9 +122,18 @@ define([
       var datGuiFolder = balls.addFolder("Ball - " + ball.Id)
       GameTurf.ui.datGui.remember(ball)
       datGuiFolder.addColor(ball, "color")
+      datGuiFolder.add(ball, "hasKi")
+      datGuiFolder.add(ball, "name")
+      datGuiFolder.add(ball, "type")
 
+      datGuiFolder.add(ball.movementDirectionData.vector, "x").listen()
+      datGuiFolder.add(ball.movementDirectionData.vector, "y").listen()
+      datGuiFolder.add(ball.movementDirectionData, "interaction").listen()
+
+      ball.lastPositions.addToDatGuiFolder(datGuiFolder)
       ball.physics.addToDatGuiFolder(datGuiFolder)
-      //ball.face.addToDatGuiFolder(datGuiFolder)
+      if (ball.hasKi)
+        ball.face.addToDatGuiFolder(datGuiFolder)
     }
 
     return ball

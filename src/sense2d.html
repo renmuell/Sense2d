@@ -20,7 +20,7 @@
     <header>Sense2d</header>
   </div>
 
-  <div id="gameCanvasContainer">
+  <div id="gameCanvasContainer"> <!-- style="transform: rotateX(5deg) scale(1.1);" -->
     <div id="Water-Container">
       <div id="Water" class="rotating"></div>
     </div>
@@ -28,8 +28,10 @@
     <canvas id="Backdrop"></canvas>
     <canvas id="Grid"></canvas>
     <canvas id="Stage"></canvas>
+    <canvas id="Foreground" style="pointer-events: none"></canvas>
   </div>
   
+  <script src="vendors/dat.gui.min.js"></script>
   <script data-main='js/sense2d' src='vendors/require.min.js'></script>
 </body>
 </html>

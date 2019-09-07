@@ -33,7 +33,7 @@ define([
       , face          : GameTurf.face()
       , lastPositions : GameTurf.lastPositions()
       , color         : "#FDF4C2"
-
+      , createdTime   : Date.now()
       , goToPlace     : {
           x    : 0
         , y    : 0
@@ -96,20 +96,22 @@ define([
             } 
           } 
           
+          playerInput = GameTurf.input.getPlayerMovementDirection()
+
           if (clicked && interacted == false ) {
             player.goToPlace.x = GameTurf.input.lastClickPosition.x
             player.goToPlace.y = GameTurf.input.lastClickPosition.y
             player.goToPlace.done = false
+          } else if (!player.goToPlace.done && playerInput.playerInteraction) {
+            player.goToPlace.done = true
           }
-        
-          playerInput = GameTurf.input.getPlayerMovementDirection()
 
-          GameTurf.wind.incluenceEntityPhysic(player.physics, playerInput.vector)
+          GameTurf.wind.influenceEntityPhysic(player.physics, playerInput.vector)
 
           if (!playerInput.playerInteraction 
            && !player.goToPlace.done){
 
-            var goToPlaceVectorFromPlayer = GameTurf.math.vectorSubstract(
+            var goToPlaceVectorFromPlayer = GameTurf.math.vectorSubtract(
                 player.goToPlace
                 , player.physics.position)
 
@@ -174,17 +176,39 @@ define([
 
       , draw: function (timeElapsed){
 
-          if(player.physics.isRunning) {
-            player.lastPositions.draw(player.physics)
-          }
+          //player.lastPositions.draw(player.physics)
 
           player.physics.draw()
+          
+          var bodyDilatation = 2
+
+          // breathing
+          if (!player.physics.isMoving) {
+            var timeLength = 2000;
+            // timeSegments : 0 to (timeLength-1) => /////// like a saw
+            var timeSegments = (Date.now() - player.createdTime) % timeLength
+
+            // linearNormalizeTimeSegments: -1 to 1 => mapping to smaller range
+            var linearNormalizeTimeSegments = timeSegments / timeLength
+            linearNormalizeTimeSegments *= 2
+            linearNormalizeTimeSegments -= 1
+         
+            // quadraticNormalizeTimeSegments: 0 to 1 to 0 => ^^^^^^^ => -1 is zero and 1 is zero -> continues loop for animation
+            var quadraticNormalizeTimeSegments = ((-1 * Math.pow(linearNormalizeTimeSegments, 2)) + 1)
+            
+            // breathing : -(breathingMax/2) -> breathingMax/2 -> ^v^v^v^ in and out breathing
+            var breathingMax = 5
+            bodyDilatation = breathingMax * quadraticNormalizeTimeSegments
+            bodyDilatation -= (breathingMax/2)
+          }
 
           // draw body
-          GameTurf.theatre.drawSquareFromCenter(
+          GameTurf.theatre.drawBezierCurvedSquareFromCenter(
             'stage'
           , player.physics
-          , player.color)
+          , player.color
+          , bodyDilatation
+          , 1)
 
           player.face.draw(player.physics)
           // interaction with neahest player
@@ -207,7 +231,12 @@ define([
     var datGuiFolder = GameTurf.ui.datGui.addFolder("Player")
     GameTurf.ui.datGui.remember(player)
     datGuiFolder.addColor(player, "color")
-
+    datGuiFolder.add(player, "type")
+    datGuiFolder.add(player, "name")
+    datGuiFolder.add(player.goToPlace, "x").listen()
+    datGuiFolder.add(player.goToPlace, "y").listen()
+    datGuiFolder.add(player.goToPlace, "done").listen()
+    
     player.physics.addToDatGuiFolder(datGuiFolder)
     player.lastPositions.addToDatGuiFolder(datGuiFolder)
     player.face.addToDatGuiFolder(datGuiFolder)

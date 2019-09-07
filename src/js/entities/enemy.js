@@ -1,8 +1,8 @@
- /******************************************************************************
- * enemy.js
- *
- * 
- *****************************************************************************/
+ /**
+  * enemy.js
+  *
+  * 
+  */
 
  define([
 
@@ -15,6 +15,10 @@
 , player
 
 ){
+
+  if (GameTurf.ui.datGui) {
+    var enemies = GameTurf.ui.datGui.addFolder("Enemies")
+  }
 
   return function(config) {
 
@@ -73,7 +77,7 @@
           enemy.movementDirectionData.interaction = false
           enemy.movementDirectionData.isRunning   = false
 
-          GameTurf.wind.incluenceEntityPhysic(
+          GameTurf.wind.influenceEntityPhysic(
             enemy.physics
           , enemy.movementDirectionData)
 
@@ -119,7 +123,7 @@
 
           enemy.physics.draw()
 
-          GameTurf.theatre.drawTrianlgeFromCenterUpsideDown(
+          GameTurf.theatre.drawTriangleFromCenterUpsideDown(
             'stage'
           , enemy.physics
           , enemy.color)

@@ -28,7 +28,7 @@ if (!Object.prototype.assign) {
      {
 
         if (settings.debugWorldCollisions) {
-            worldCollsitionDetection.debugLine(
+            worldCollisionDetection.debugLine(
                 line1StartX,
                 line1StartY,
                 line1EndX,

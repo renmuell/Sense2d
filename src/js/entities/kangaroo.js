@@ -73,7 +73,7 @@ define([
             kangaroo.movementDirectionData.interaction = false
             kangaroo.movementDirectionData.isRunning   = false
   
-            GameTurf.wind.incluenceEntityPhysic(
+            GameTurf.wind.influenceEntityPhysic(
               kangaroo.physics
             , kangaroo.movementDirectionData)
   

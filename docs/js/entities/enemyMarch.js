@@ -102,7 +102,7 @@ define([
                 enemy.movementDirectionData.vector)
           }
 
-          GameTurf.wind.incluenceEntityPhysic(
+          GameTurf.wind.influenceEntityPhysic(
             enemy.physics
           , enemy.movementDirectionData)
           
@@ -127,7 +127,7 @@ define([
 
           enemy.physics.draw()
 
-          GameTurf.theatre.drawTrianlgeFromCenterUpsideDown(
+          GameTurf.theatre.drawTriangleFromCenterUpsideDown(
             'stage'
           , enemy.physics
           , enemy.color)

@@ -16,6 +16,10 @@ define([
   
   ){
   
+    if (GameTurf.ui.datGui) {
+      var npcs = GameTurf.ui.datGui.addFolder("NPCs")
+    }
+
     return function(config) {
   
       config         = config         || {}
@@ -73,7 +77,7 @@ define([
             npc.movementDirectionData.interaction = false
             npc.movementDirectionData.isRunning   = false
   
-            GameTurf.wind.incluenceEntityPhysic(
+            GameTurf.wind.influenceEntityPhysic(
               npc.physics
             , npc.movementDirectionData)
   
@@ -129,6 +133,24 @@ define([
   
       npc.init()
   
+      if (GameTurf.ui.datGui) {
+        var datGuiFolder = npcs.addFolder("NPC - " + npc.Id)
+        GameTurf.ui.datGui.remember(npc)
+        
+        datGuiFolder.add(npc, "type")
+        datGuiFolder.add(npc, "color")
+        datGuiFolder.add(npc, "name")
+        datGuiFolder.add(npc, "hasKi")
+
+        datGuiFolder.add(npc.movementDirectionData.vector, "x").listen()
+        datGuiFolder.add(npc.movementDirectionData.vector, "y").listen()
+        datGuiFolder.add(npc.movementDirectionData, "interaction").listen()
+  
+        npc.physics.addToDatGuiFolder(datGuiFolder)
+        npc.lastPositions.addToDatGuiFolder(datGuiFolder)
+        npc.face.addToDatGuiFolder(datGuiFolder)
+      }
+
       return npc
     }
   })
