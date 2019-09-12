@@ -197,13 +197,14 @@ define([
             var quadraticNormalizeTimeSegments = ((-1 * Math.pow(linearNormalizeTimeSegments, 2)) + 1)
             
             // breathing : -(breathingMax/2) -> breathingMax/2 -> ^v^v^v^ in and out breathing
-            var breathingMax = 5
+            var breathingMax = 4
             bodyDilatation = breathingMax * quadraticNormalizeTimeSegments
             bodyDilatation -= (breathingMax/2)
+            bodyDilatation += 1.2
           }
 
           // draw body
-          GameTurf.theatre.drawBezierCurvedSquareFromCenter(
+         GameTurf.theatre.drawBezierCurvedSquareFromCenter(
             'stage'
           , player.physics
           , player.color

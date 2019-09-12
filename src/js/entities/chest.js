@@ -72,6 +72,7 @@ define([
             , chest.physics
             , chest.isOpen ? chest.colorOpen : chest.colorClose)
           }
+          
         , tryOpenChest: function() {
             if (!chest.isOpen) {
                 chest.isOpen = true;
